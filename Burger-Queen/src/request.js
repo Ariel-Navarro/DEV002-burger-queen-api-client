@@ -1,8 +1,6 @@
 import axios from "axios";
 // import { useNavigate } from 'react-router-dom';
 
-// const token = localStorage.getItem("token");
-
 const API_URL = "http://127.0.0.1:8080";
 const token = localStorage.getItem("token");
 
@@ -156,7 +154,6 @@ const GetProducts = async () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        // console.log( 'response.data',response.data)
         return response.data;
       } catch (error) {
         console.error("Error al obtener los productos:", error);
