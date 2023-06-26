@@ -156,6 +156,7 @@ const GetProducts = async () => {
             Authorization: `Bearer ${token}`,
           },
         });
+        // console.log( 'response.data',response.data)
         return response.data;
       } catch (error) {
         console.error("Error al obtener los productos:", error);
