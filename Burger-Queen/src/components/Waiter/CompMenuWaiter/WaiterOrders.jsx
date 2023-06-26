@@ -1,6 +1,6 @@
 const WaiterOrders = () => {
     return (
-        <p>holaaaaaaa</p>
+        <p></p>
     )
 }
 

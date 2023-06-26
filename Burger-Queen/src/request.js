@@ -95,7 +95,7 @@ const deleteUser = async (id) => {
 };
 
 // Añadir un nuevo producto
-const postProduct = async ({ name, price, image, type }) => {
+const postProducts = async ({ name, price, image, type }) => {
     try {
         const response = await axios.post(
             `${API_URL}/products`,
@@ -213,7 +213,7 @@ const editOrder = async (id, object) => {
 
 export {
     auth,
-    postProduct,
+    postProducts,
     deleteProduct,
     GetProducts,
     putProducts,

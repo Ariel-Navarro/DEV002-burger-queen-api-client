@@ -144,6 +144,6 @@ const ModalAddUsers = ({ estado, cambiarEstado }) => {
             }
         </div>
     )
-}
+};
 
 export default ModalAddUsers;

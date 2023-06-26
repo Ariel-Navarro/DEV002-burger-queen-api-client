@@ -1,5 +1,4 @@
 import React from 'react';
-// import "../../../src/estilos/admin/navigationBar.css";
 import waiter from '../img/waiter.png';
 import orders from '../img/lista-de-verificacion.png';
 import menu from '../img/menu.png'
@@ -7,12 +6,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 const NavigationBarWaiter = () => {
   const location = useLocation();
-  // console.log(location)
   const isEmployeesRoute = location.pathname === "/menuWaiter";
-  // console.log(isEmployeesRoute)
-
-
-  //   crear nuevos estilos
 
   return (
     <nav className="navigation">

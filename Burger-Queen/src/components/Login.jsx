@@ -22,26 +22,22 @@ const Login = () => {
 
   const enviarDatos = async (event) => {
     event.preventDefault();
-    try {
+    
       const response = await auth({ email, password });
-      console.log('token', response);
+      console.log(response);
 
-      if (response.data.user.role == 'admin') {
-        console.log('response', response)
-        localStorage.setItem('token', response.data.accessToken);
-        // redirigir a la página principal
-        onNavigate('/menuAdmin')
-      } else if (response.data.user.role == 'waiter') {
-        console.log('LOGIN WAITER', response)
-        localStorage.setItem('token', response.data.accessToken);
-        // redirigir a la página principal
-        onNavigate('/WaiterMenu')
+      if (response.user.role) {
+        if (response.user.role === 'admin') {
+            localStorage.setItem('token', response.accessToken);
+            // redirigir a la página principal
+            onNavigate('/menuAdmin')
+        } else if (response.user.role === 'waiter') {
+            localStorage.setItem('token', response.accessToken);
+            // redirigir a la página principal
+            onNavigate('/WaiterMenu')
+        }
       }
-    } catch (error) {
-      setError(error.response.data.message);
-    }
   };
-
 
   return (
     <Fragment>

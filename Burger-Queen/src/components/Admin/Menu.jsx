@@ -110,7 +110,6 @@ const Menu = () => {
                   cambiarEstado={setShowEditModal}
                   props={{ price, type }}
                   onUpdateProducts={handleUpdateProducts}
-
                   >
                     <div className="formAddProduct">
                   <label className='label-form'>
