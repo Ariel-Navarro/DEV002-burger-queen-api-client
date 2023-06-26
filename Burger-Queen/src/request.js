@@ -3,219 +3,217 @@ import axios from "axios";
 
 // const token = localStorage.getItem("token");
 
+const API_URL = "http://127.0.0.1:8080";
+const token = localStorage.getItem("token");
+
 // Usuario hace login 
 const auth = async ({ email, password }) => {
-    return await axios.post('http://127.0.0.1:8080/login', { email, password }, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    })
+    try {
+        const response = await axios.post(
+            `${API_URL}/login`,
+            { email, password },
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error("Error en la autenticación:", error);
+        throw error;
+    }
 };
 
 // Traer a todos los usuarios
 const getUsers = async () => {
-    const token = localStorage.getItem("token");
-    const urlBurguerApi = "http://localhost:8080/users";
     try {
-        const response = await axios.get(urlBurguerApi, {
+        const response = await axios.get(`${API_URL}/users`, {
             headers: {
-                Authorization: "Bearer " + token,
+                Authorization: `Bearer ${token}`,
             },
         });
-        const data = response.data;
-        console.log('data', data)
-        return data;
+        return response.data;
     } catch (error) {
-        console.log('error', error)
+        console.error("Error al obtener los usuarios:", error);
+        throw error;
     }
 };
 
 //Añadir a un nuevo usuario
 const addEmployee = async ({ name, email, password, role, image }) => {
-
-    const token = localStorage.getItem("token");
-    const urlBurguerApi = "http://localhost:8080/users";
-    console.log('postProducts')
     try {
-        const response = await axios.post(urlBurguerApi, { name, email, password, role, image }, {
-            method: 'POST',
-            headers: {
-                Authorization: "Bearer " + token,
-                'Content-Type': 'application/json',
-            },
-        });
-        const data = response.data;
-        console.log(data)
-        return data;
+        const response = await axios.post(
+            `${API_URL}/users`,
+            { name, email, password, role, image },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+        return response.data;
     } catch (error) {
-        console.log('error de request', error)
+        console.error("Error al añadir un nuevo empleado:", error);
+        throw error;
     }
 };
 
 // Editar a un usuario existente
-const editUser = async (id, object) => {
-    const urlBurguerApi = `http://localhost:8080/users/${id}`;
-    console.log('urlBurguerApi', urlBurguerApi)
-    const token = localStorage.getItem("token");
-    const headers = {
-        Authorization: "Bearer " + token,
-        'Content-Type': 'application/json',
-    };
+const editUser = async (id, userData) => {
+    const url = `${API_URL}/users/${id}`;
     try {
-        await axios.put(urlBurguerApi, object, { headers });
-        console.log('El usuario ha sido actualizado con éxito');
+        await axios.put(url, userData, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+        });
+        console.log("El usuario ha sido actualizado con éxito");
     } catch (error) {
-        console.log('Error al actualizar el producto:', error)
+        console.error("Error al editar el usuario:", error);
+        throw error;
     }
 };
 
 // Eliminar a un usuario
 const deleteUser = async (id) => {
-    const urlBurguerApi = `http://localhost:8080/users/${id}`;
-    const token = localStorage.getItem("token");
-    const headers = {
-        Authorization: "Bearer " + token,
-        'Content-Type': 'application/json',
-    };
-
+    const url = `${API_URL}/users/${id}`;
     try {
-        await axios.delete(urlBurguerApi, {
-            headers: headers
+        await axios.delete(url, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
         });
-        console.log('Se eliminó al usuario')
+        console.log("Se eliminó al usuario");
     } catch (error) {
-        console.log('error', error);
+        console.error("Error al eliminar el usuario:", error);
+        throw error;
     }
 };
 
-
 // Añadir un nuevo producto
-const postProducts = async ({ name, price, image, type }) => {
-    const token = localStorage.getItem("token");
-    const urlBurguerApi = "http://localhost:8080/products";
-    console.log('postProducts')
+const postProduct = async ({ name, price, image, type }) => {
     try {
-        const response = await axios.post(urlBurguerApi, { name, price, image, type }, {
-            method: 'POST',
-            headers: {
-                Authorization: "Bearer " + token,
-                'Content-Type': 'application/json',
-            },
-        });
-        const data = response.data;
-        console.log(data)
-        return data;
+        const response = await axios.post(
+            `${API_URL}/products`,
+            { name, price, image, type },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+        return response.data;
     } catch (error) {
-        console.log('error', error)
+        console.error("Error al añadir un producto:", error);
+        throw error;
     }
 };
 
 // Editar un producto existente en API REST
 const putProducts = async (id, object) => {
-    const token = localStorage.getItem("token");
-    const urlBurguerApi = `http://localhost:8080/products/${id}`;
+    const urlBurguerApi = `${API_URL}/products/${id}`;
     const headers = {
-        Authorization: "Bearer " + token,
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
     };
     try {
         await axios.put(urlBurguerApi, object, { headers });
         console.log('El producto ha sido actualizado con éxito');
     } catch (error) {
-        console.error('Error al actualizar el producto:', error);
+        console.error("Error al actualizar el producto:", error);
+        throw error;
     }
 };
 
 // Eliminar un producto
 const deleteProduct = async (id) => {
     const token = localStorage.getItem("token");
-    const urlBurguerApi = `http://localhost:8080/products/${id}`; // Agregar el ID del producto a la URL
+    const urlBurguerApi = `${API_URL}/products/${id}`; // Agregar el ID del producto a la URL
     try {
         await axios.delete(urlBurguerApi, {
             headers: {
-                Authorization: "Bearer " + token,
+                Authorization: `Bearer ${token}`,
                 'Content-Type': 'application/json',
             },
         });
 
     } catch (error) {
-        console.log('error', error)
+        console.error("Error al eliminar el producto:", error);
+        throw error;
     }
 };
 
 // Traer a todos los productos
 const GetProducts = async () => {
-    const token = localStorage.getItem("token");
-    const urlBurguerApi = "http://localhost:8080/products";
     try {
-        const response = await axios.get(urlBurguerApi, {
-            headers: {
-                Authorization: "Bearer " + token,
-            },
+        const response = await axios.get(`${API_URL}/products`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
-        const data = response.data;
-        return data;
-    } catch (error) {
-        console.error(error);
-    }
+        return response.data;
+      } catch (error) {
+        console.error("Error al obtener los productos:", error);
+        throw error;
+      }
 };
 
 // Crear una orden
 const postOrder = async (object) => {
-    const token = localStorage.getItem("token")
-    const urlBurguerApi = "http://localhost:8080/orders";
+    const url = `${API_URL}/orders`;
     try {
-        const response = await axios.post(urlBurguerApi, object , {
-            method: 'POST',
-            headers: {
-                Authorization: "Bearer " + token,
-            },
-        });
-        const data = response.data;
-        console.log('data', data)
+      const response = await axios.post(url, orderData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      console.log("La orden se ha creado con éxito:", response.data);
     } catch (error) {
-        console.log(error);
+      console.error("Error al crear la orden:", error);
+      throw error;
     }
 };
 
-const getOrder = async() => {
-    const token = localStorage.getItem("token")
-    const urlBurguerApi = "http://localhost:8080/orders";
+const getOrder = async () => {
     try {
-        const response = await axios.get(urlBurguerApi, {
-            headers: {
-                Authorization: "Bearer " + token,
-            },
+        const response = await axios.get(`${API_URL}/orders`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
-        const data = response.data;
-        console.log('data', data)
-        return data;
-    } catch (error) {
-        console.log(error);
-    }
+        return response.data;
+      } catch (error) {
+        console.error("Error al obtener las órdenes:", error);
+        throw error;
+      }
 };
 
 // Editar una orden existente
 const editOrder = async (id, object) => {
-    const urlBurguerApi = `http://localhost:8080/orders/${id}`;
-    console.log('urlBurguerApi', urlBurguerApi)
-    const token = localStorage.getItem("token");
-    const headers = {
-        Authorization: "Bearer " + token,
-        'Content-Type': 'application/json',
-    };
+    const url = `${API_URL}/orders/${id}`;
     try {
-        await axios.put(urlBurguerApi, object, { headers });
-        console.log('La order ahora es de status: derivered');
+      await axios.put(url, orderData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      console.log("La orden ha sido actualizada con éxito");
     } catch (error) {
-        console.log('Error al actualizar la orden:', error)
+      console.error("Error al actualizar la orden:", error);
+      throw error;
     }
 };
 
 export {
     auth,
-    postProducts,
+    postProduct,
     deleteProduct,
     GetProducts,
     putProducts,
